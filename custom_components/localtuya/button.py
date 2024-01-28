@@ -57,14 +57,19 @@ class LocaltuyaButton(LocalTuyaEntity, ButtonEntity):
         }
         await self._device.set_dp(json.dumps(command), PRESS_DP)
 
+    # Available when there is data from the device
     @property
     def available(self):
-        return True
+        return self._status
 
+    # Update state when there is new data from the device
     def status_updated(self):
-        state = "generic"
+        state = self.state
         self._state = state
         self._last_state = state
 
+    # No need to restore state for a button
+    async def restore_state_when_connected(self):
+        return
 
 async_setup_entry = partial(async_setup_entry, DOMAIN, LocaltuyaButton, flow_schema)
