@@ -126,7 +126,9 @@
                     "restore_on_reconnect": "Restore the last set value in HomeAssistant after a lost connection",
                     "min_value": "Minimum Value",
                     "max_value": "Maximum Value",
-                    "step_size": "Minimum increment between numbers"
+                    "step_size": "Minimum increment between numbers",
+                    "ir_button_head": "Head value for IR code",
+                    "ir_button_key1": "Key1 value for IR code"
                 }
             },
             "yaml_import": {

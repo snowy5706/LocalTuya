@@ -11,6 +11,7 @@ PLATFORMS = [
     "climate",
     "cover",
     "fan",
+    "ir_button",
     "light",
     "number",
     "select",
@@ -134,3 +135,7 @@ CONF_OPTIONS_FRIENDLY = "select_options_friendly"
 # States
 ATTR_STATE = "raw_state"
 CONF_RESTORE_ON_RECONNECT = "restore_on_reconnect"
+
+# IR Button
+CONF_IR_BUTTON_HEAD = "ir_button_head"
+CONF_IR_BUTTON_KEY1 = "ir_button_key1"
