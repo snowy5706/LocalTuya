@@ -59,17 +59,12 @@ class LocaltuyaButton(LocalTuyaEntity, ButtonEntity):
 
     @property
     def available(self):
-        return self.with_real_dp_id(lambda: super().available())
+        return True
 
     def status_updated(self):
-        self.with_real_dp_id(lambda: super().status_updated())
-
-    def with_real_dp_id(self, fx):
-        dp_id = self._dp_id
-        self._dp_id = PRESS_DP
-        result = fx()
-        self._dp_id = dp_id
-        return result
+        state = "generic"
+        self._state = state
+        self._last_state = state
 
 
 async_setup_entry = partial(async_setup_entry, DOMAIN, LocaltuyaButton, flow_schema)
