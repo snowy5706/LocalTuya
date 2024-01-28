@@ -193,7 +193,9 @@
                     "min_value": "Minimum Value",
                     "max_value": "Maximum Value",
                     "step_size": "Minimum increment between numbers",
-                    "is_passive_entity": "Passive entity - requires integration to send initialisation value"
+                    "is_passive_entity": "Passive entity - requires integration to send initialisation value",
+                    "ir_button_head": "Head value for IR code",
+                    "ir_button_key1": "Key1 value for IR code"
                 }
             }
         }

@@ -1,4 +1,4 @@
-"""Platform to present any Tuya DP as an enumeration."""
+"""Platform to present any Tuya DP as a button."""
 import logging
 from functools import partial
 import json
@@ -24,18 +24,18 @@ def flow_schema(dps):
     }
 
 
-class LocaltuyaIRButton(LocalTuyaEntity, ButtonEntity):
-    """Representation of a Tuya IR Button."""
+class LocaltuyaButton(LocalTuyaEntity, ButtonEntity):
+    """Representation of a Tuya button."""
 
     def __init__(
         self,
         device,
         config_entry,
-        sensorid,
+        buttonid,
         **kwargs,
     ):
-        """Initialize the Tuya IR Button."""
-        super().__init__(device, config_entry, sensorid, _LOGGER, **kwargs)
+        """Initialize the Tuya button."""
+        super().__init__(device, config_entry, buttonid, _LOGGER, **kwargs)
         self._head = self._config.get(CONF_IR_BUTTON_HEAD)
         self._key1 = self._config.get(CONF_IR_BUTTON_KEY1)
         _LOGGER.debug("Initialized IR Button [%s]", self.name)
@@ -51,4 +51,4 @@ class LocaltuyaIRButton(LocalTuyaEntity, ButtonEntity):
         await self._device.set_dp(json.dumps(command), PRESS_DP)
 
 
-async_setup_entry = partial(async_setup_entry, DOMAIN, LocaltuyaIRButton, flow_schema)
+async_setup_entry = partial(async_setup_entry, DOMAIN, LocaltuyaButton, flow_schema)
