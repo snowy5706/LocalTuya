@@ -4,6 +4,7 @@ from functools import partial
 import json
 import voluptuous as vol
 from homeassistant.components.button import DOMAIN, ButtonEntity
+from homeassistant.const import CONF_DEVICE_CLASS
 
 from .common import LocalTuyaEntity, async_setup_entry
 from .const import (
@@ -40,15 +41,35 @@ class LocaltuyaButton(LocalTuyaEntity, ButtonEntity):
         self._key1 = self._config.get(CONF_IR_BUTTON_KEY1)
         _LOGGER.debug("Initialized IR Button [%s]", self.name)
 
+    @property
+    def device_class(self):
+        """Return the class of this device."""
+        return self._config.get(CONF_DEVICE_CLASS)
+
     async def async_press(self) -> None:
         """Press the button."""
         command = {
             "control": "send_ir",
-            "type": 0,
             "head": self._head,
-            "key1": self._key1
+            "key1": self._key1,
+            "type": 0,
+            "delay": 300
         }
         await self._device.set_dp(json.dumps(command), PRESS_DP)
+
+    @property
+    def available(self):
+        return self.with_real_dp_id(lambda: super().available())
+
+    def status_updated(self):
+        self.with_real_dp_id(lambda: super().status_updated())
+
+    def with_real_dp_id(self, fx):
+        dp_id = self._dp_id
+        self._dp_id = PRESS_DP
+        result = fx()
+        self._dp_id = dp_id
+        return result
 
 
 async_setup_entry = partial(async_setup_entry, DOMAIN, LocaltuyaButton, flow_schema)
