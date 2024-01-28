@@ -241,6 +241,8 @@
                     "alarm_supported_states": "States supported by the device",
                     "receive_dp":"Receiving signals DP. (default is 202)",
                     "key_study_dp":"(Optional) Key Study DP (usually 7)",
+                    "ir_button_head": "Head value for IR code",
+                    "ir_button_key1": "Key1 value for IR code",
                     "lock_state_dp":"(Optional) Lock state DP",
                     "jammed_dp":"(Optional) Jam DP",
                     "target_temperature_high_dp":"(Optional) Target Temperature High DP",
