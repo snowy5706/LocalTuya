@@ -29,8 +29,8 @@ DYNAMIC_DP = 1000
 def flow_schema(dps):
     """Return schema used in config flow."""
     return {
-        vol.Required(CONF_IR_BUTTON_HEAD): str,
-        vol.Required(CONF_IR_BUTTON_KEY1): str,
+        vol.Optional(CONF_IR_BUTTON_HEAD): str,
+        vol.Optional(CONF_IR_BUTTON_KEY1): str,
     }
 
 
