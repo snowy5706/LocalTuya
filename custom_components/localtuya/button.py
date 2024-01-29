@@ -10,7 +10,11 @@ from homeassistant.const import (
     CONF_ID
 )
 
-from .common import LocalTuyaEntity, async_setup_entry
+from .common import (
+    LocalTuyaEntity,
+    async_setup_entry,
+    get_entity_config
+)
 from .const import (
     CONF_IR_BUTTON_HEAD,
     CONF_IR_BUTTON_KEY1
@@ -19,6 +23,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 PRESS_DP = 201
+DYNAMIC_DP = 1000
 
 
 def flow_schema(dps):
@@ -40,9 +45,13 @@ class LocaltuyaButton(LocalTuyaEntity, ButtonEntity):
         **kwargs,
     ):
         """Initialize the Tuya button."""
-        max_dp_id = max([ e[CONF_ID] for e in config_entry[CONF_ENTITIES] ])
-        next_dp_id = min(max_dp_id + 1, 1000)
-        super().__init__(device, config_entry, next_dp_id, _LOGGER, **kwargs)
+        # Hacky way to dynamically assign dps :)
+        if buttonid < DYNAMIC_DP:
+            next_buttonid = max(max([ e[CONF_ID] for e in config_entry[CONF_ENTITIES] ]) + 1, DYNAMIC_DP)
+            get_entity_config(config_entry, buttonid)[CONF_ID] = next_buttonid
+            buttonid = next_buttonid
+
+        super().__init__(device, config_entry, buttonid, _LOGGER, **kwargs)
         self._head = self._config.get(CONF_IR_BUTTON_HEAD)
         self._key1 = self._config.get(CONF_IR_BUTTON_KEY1)
         _LOGGER.debug("Initialized IR Button [%s]", self.name)
