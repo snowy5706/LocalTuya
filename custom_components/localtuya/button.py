@@ -4,7 +4,11 @@ from functools import partial
 import json
 import voluptuous as vol
 from homeassistant.components.button import DOMAIN, ButtonEntity
-from homeassistant.const import CONF_DEVICE_CLASS
+from homeassistant.const import (
+    CONF_DEVICE_CLASS,
+    CONF_ENTITIES,
+    CONF_ID
+)
 
 from .common import LocalTuyaEntity, async_setup_entry
 from .const import (
@@ -36,7 +40,9 @@ class LocaltuyaButton(LocalTuyaEntity, ButtonEntity):
         **kwargs,
     ):
         """Initialize the Tuya button."""
-        super().__init__(device, config_entry, buttonid, _LOGGER, **kwargs)
+        max_dp_id = max([ e[CONF_ID] for e in config_entry[CONF_ENTITIES] ])
+        next_dp_id = min(max_dp_id + 1, 1000)
+        super().__init__(device, config_entry, next_dp_id, _LOGGER, **kwargs)
         self._head = self._config.get(CONF_IR_BUTTON_HEAD)
         self._key1 = self._config.get(CONF_IR_BUTTON_KEY1)
         _LOGGER.debug("Initialized IR Button [%s]", self.name)
