@@ -38,8 +38,8 @@ class LocalTuyaButton(LocalTuyaEntity, ButtonEntity):
     ):
         """Initialize the Tuya button."""
         # Hacky way to dynamically assign dps :)
-        if buttonid < DYNAMIC_DP:
-            next_buttonid = max(max([ e[CONF_ID] for e in config_entry[CONF_ENTITIES] ]) + 1, DYNAMIC_DP)
+        if int(buttonid) < DYNAMIC_DP:
+            next_buttonid = str(max(max([ int(e[CONF_ID]) for e in config_entry[CONF_ENTITIES] ]) + 1, DYNAMIC_DP))
             get_entity_config(config_entry, buttonid)[CONF_ID] = next_buttonid
             buttonid = next_buttonid
 
